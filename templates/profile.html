@@ -33,6 +33,13 @@
                 <p>Average rating: {{ book["average_rating"] }}</p>
                 <p>Rating count: {{ book["rating_count"] }}</p>
             </div>
+            <div>
+                <form action="/delete" method="post">
+                    <input type="hidden" name="isbn" value="{{book['isbn']}}">
+                    <input type="hidden" name="shelf" value="read">
+                    <button class="btn btn-outline-success" type="submit">Remove</button>
+                </form>
+            </div>
             {% endfor %}
         </div>
 
@@ -54,6 +61,13 @@
                 <p>Categories: {{ book["categories"] }}</p>
                 <p>Average rating: {{ book["average_rating"] }}</p>
                 <p>Rating count: {{ book["rating_count"] }}</p>
+            </div>
+            <div>
+                <form action="/delete" method="post">
+                    <input type="hidden" name="isbn" value="{{book['isbn']}}">
+                    <input type="hidden" name="shelf" value="tbr">
+                    <button class="btn btn-outline-success" type="submit">Remove</button>
+                </form>
             </div>
             {% endfor %}
         </div>

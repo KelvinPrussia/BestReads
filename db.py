@@ -110,10 +110,7 @@ def insert_tbr(user, book):
     conn.commit()
     conn.close()
 
-def delete_read(user, isbn):
+def delete(user, isbn, shelf):
     conn = sql.connect(db)
-    conn.execute("DELETE FROM read WHERE user_id = ? AND isbn = ?", (user, isbn,))
+    conn.execute("DELETE FROM ? WHERE user_id = ? AND isbn = ?", (shelf, user, isbn))
 
-def delete_tbr(user, isbn):
-    conn = sql.connect(db)
-    conn.execute("DELETE FROM tbr WHERE user_id = ? AND isbn = ?", (user, isbn,))

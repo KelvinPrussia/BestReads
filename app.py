@@ -109,6 +109,7 @@ def search():
 
     return render_template("index.html", books=books)
 
+
 @app.route("/addtoshelf", methods=["POST"])
 @login_required
 def add_to_shelf():
@@ -126,7 +127,7 @@ def add_to_shelf():
             return redirect("/profile")
         else:
             if check_read:
-                db.delete_tbr(user_id, book["isbn"])
+                db.delete(user_id, book["isbn"], "read")
             db.insert_read(user_id, book)
     else:
         # check if already in read/tbr database for user
@@ -138,10 +139,11 @@ def add_to_shelf():
             return redirect("/profile")
         else:
             if check_read:
-                db.delete_read(user_id, book["isbn"])
+                db.delete(user_id, book["isbn"], "read")
             db.insert_tbr(user_id, book)
 
     return redirect("/profile")
+
 
 @app.route("/profile")
 @login_required
@@ -156,6 +158,16 @@ def profile():
     tbr = db.get_tbr(user_id)
 
     return render_template("profile.html", username=username, read=read, tbr=tbr)
+
+@app.route("/delete" ,methods=["POST"])
+@login_required
+def delete():
+    user_id = session["user_id"]
+    isbn = request.form.get("isbn")
+    shelf = request.form.get("read")
+    
+    db.delete(user_id, isbn, shelf)
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=8001)
