@@ -17,7 +17,7 @@
         <div id="Read" class="tabcontent">
             {% for book in read %}
             <div class="img_cont">
-                <img src="{{ book['image_link'] | safe }}" alt="Cover art">
+                <img src="{{ book['image'] | safe }}" alt="Cover art">
             </div>
             <div class="info_cont">
                 <p>
@@ -30,12 +30,10 @@
                 <p>Isbn: {{ book["isbn"] }}</p>
                 <p>Page count: {{ book["page_count"] }}</p>
                 <p>Categories: {{ book["categories"] }}</p>
-                <p>Average rating: {{ book["average_rating"] }}</p>
-                <p>Rating count: {{ book["rating_count"] }}</p>
             </div>
             <div>
                 <form action="/delete" method="post">
-                    <input type="hidden" name="isbn" value="{{book['isbn']}}">
+                    <input type="hidden" name="book" value="{{book}}">
                     <input type="hidden" name="shelf" value="read">
                     <button class="btn btn-outline-success" type="submit">Remove</button>
                 </form>
@@ -46,7 +44,7 @@
         <div id="TBR" class="tabcontent">
             {% for book in tbr %}
             <div class="img_cont">
-                <img src="{{ book['image_link'] | safe }}" alt="Cover art">
+                <img src="{{ book['image'] | safe }}" alt="Cover art">
             </div>
             <div class="info_cont">
                 <p>
@@ -59,12 +57,10 @@
                 <p>Isbn: {{ book["isbn"] }}</p>
                 <p>Page count: {{ book["page_count"] }}</p>
                 <p>Categories: {{ book["categories"] }}</p>
-                <p>Average rating: {{ book["average_rating"] }}</p>
-                <p>Rating count: {{ book["rating_count"] }}</p>
             </div>
             <div>
                 <form action="/delete" method="post">
-                    <input type="hidden" name="isbn" value="{{book['isbn']}}">
+                    <input type="hidden" name="book" value="{{book}}">
                     <input type="hidden" name="shelf" value="tbr">
                     <button class="btn btn-outline-success" type="submit">Remove</button>
                 </form>

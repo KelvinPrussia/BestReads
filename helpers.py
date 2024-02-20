@@ -42,8 +42,6 @@ def map_searched_data(search_data):
             "isbn": isbn_13,
             "page_count": volume_info.get("pageCount", "Unknown"),
             "categories": categories,
-            "avg_rating": volume_info.get("averageRating", "Unknown"),
-            "rating_count": volume_info.get("ratingsCount", "Unknown"),
             "image": volume_info.get("imageLinks", {}).get("thumbnail", "static/blankbook.jpg")
         }
 

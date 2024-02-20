@@ -1,5 +1,5 @@
 import ast
-import datetime
+from datetime import datetime
 import json
 import db
 
@@ -90,7 +90,8 @@ def logout():
 @app.route("/")
 @login_required
 def index():
-     return render_template("index.html")
+     updates = db.get_recent_updates(session["user_id"])
+     return render_template("index.html", updates=updates)
 
 
 @app.route("/search", methods=["POST"])
@@ -107,7 +108,7 @@ def search():
     # extract and map useful data from the api response
     books = map_searched_data(json.load(resp))
 
-    return render_template("index.html", books=books)
+    return render_template("search.html", books=books)
 
 
 @app.route("/addtoshelf", methods=["POST"])
@@ -116,31 +117,30 @@ def add_to_shelf():
     # convert string of book data to dict
     book = ast.literal_eval(request.form.get("book"))
     user_id = session["user_id"]
+    timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    shelf = request.form.get("shelf")
 
-    if request.form.get("shelf") == "read":
-        # check if already in read/tbr database for user
-        check_read = db.get_read_by_isbn(user_id, book["isbn"])
-        check_tbr  = db.get_tbr_by_isbn(user_id, book["isbn"])
+    check_read = db.get_book_by_isbn(user_id, book["isbn"], "read")
+    check_tbr  = db.get_book_by_isbn(user_id, book["isbn"], "tbr")
 
-        # if record exists in read, redirect to profile, else add to db and remove from tbr if there
+    if shelf == "read":
+        # if book already exists in read, redirect to profile
         if check_read:
             return redirect("/profile")
         else:
-            if check_read:
-                db.delete(user_id, book["isbn"], "read")
-            db.insert_read(user_id, book)
+            if check_tbr:
+                db.delete_book(user_id, book["isbn"], "tbr")
     else:
-        # check if already in read/tbr database for user
-        check_read = db.get_read_by_isbn(user_id, book["isbn"])
-        check_tbr = db.get_tbr_by_isbn(user_id, book["isbn"])
-
-        # if record exists, redirect to profile, else add to db and remove from read if there
+        # if book already exists in tbr, redirect to profile
         if check_tbr:
             return redirect("/profile")
-        else:
-            if check_read:
-                db.delete(user_id, book["isbn"], "read")
-            db.insert_tbr(user_id, book)
+        # if book already exists in read, delete before adding to tbr
+        if check_read:
+            db.delete_book(user_id, book["isbn"], "read")
+    
+    # insert entry into tbr or read table and update table
+    db.insert_book(user_id, book, shelf, timestamp)
+    db.insert_update(user_id, book, shelf, timestamp)
 
     return redirect("/profile")
 
@@ -154,19 +154,25 @@ def profile():
     username = user["username"]
 
     # get read + tbr books from bd
-    read = db.get_read(user_id)
-    tbr = db.get_tbr(user_id)
+    read = db.get_books(user_id, "read")
+    tbr = db.get_books(user_id, "tbr")
 
     return render_template("profile.html", username=username, read=read, tbr=tbr)
+
 
 @app.route("/delete" ,methods=["POST"])
 @login_required
 def delete():
+    # Delete record of book from shelf (via profile)
     user_id = session["user_id"]
-    isbn = request.form.get("isbn")
-    shelf = request.form.get("read")
+    book = ast.literal_eval(request.form.get("book"))
+    shelf = request.form.get("shelf")
+    timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
-    db.delete(user_id, isbn, shelf)
+    db.delete_book(user_id, book["isbn"], shelf)
+    db.insert_update(user_id, book, "delete", timestamp)
+
+    return redirect("/profile")
 
 
 if __name__ == "__main__":
