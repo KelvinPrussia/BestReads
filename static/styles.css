@@ -10,3 +10,11 @@
     color: #198754;
     text-decoration: underline;
 }
+
+.title-text
+{
+    max-width: 750px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

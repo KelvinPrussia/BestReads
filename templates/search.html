@@ -6,42 +6,50 @@
 
 {% block main %}
     {% for book in books %}
-        <div class="">
-            <div class="img_cont">
-                <img src="{{ book['image'] | safe }}" alt="Cover art">
+        <div class="container my-2">
+            <div class="row">
+                <div class="col-md-3 d-flex align-items-center">
+                    <img class="img-fluid" src="{{ book['image'] | safe }}" alt="Cover art">
+                </div>
+                <div class="col">
+                    <div class="img-row row">
+                        <h3 class="title-text">
+                            {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
+                        </h3>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <p><strong>Author(s):</strong> {{ book["author"] }}</p>
+                            <p><strong>Publisher:</strong> {{ book["publisher"] }}</p>
+                            <p><strong>Published Date:</strong> {{ book["published_date"] }}</p>
+                        </div>
+                        <div class="col">
+                            <p><strong>Page count:</strong> {{ book["page_count"] }}</p>
+                            <p><strong>Categories:</strong> {{ book["categories"] }}</p>
+                            <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu{{ loop.index }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Add to shelf
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ loop.index }}">
+                                <li class="dropdown-item">
+                                    <form class="px-4 py-3" action="/addtoshelf" method="post">
+                                        <input type="hidden" name="book" value="{{book}}">
+                                        <input type="hidden" name="shelf" value="read">
+                                        <button class="dropdown-item" type="submit">Read</button>
+                                    </form>
+                                </li>
+                                <li class="dropdown-item">
+                                    <form class="px-4 py-3" action="/addtoshelf" method="post">
+                                        <input type="hidden" name="book" value="{{book}}">
+                                        <input type="hidden" name="shelf" value="tbr">
+                                        <button class="dropdown-item" type="submit">To Be Read</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="info_cont">
-                <p>
-                    Title: {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
-                </p>
-                <p>Authors: {{ book["author"] }}</p>
-                <p>Publisher: {{ book["publisher"] }}</p>
-                <p>Published Date: {{ book["published_date"] }}</p>
-                <p>Description: {{ book["description"] }}</p>
-                <p>Isbn: {{ book["isbn"] }}</p>
-                <p>Page count: {{ book["page_count"] }}</p>
-                <p>Categories: {{ book["categories"] }}</p>
-                <p>Average rating: {{ book["average_rating"] }}</p>
-                <p>Rating count: {{ book["rating_count"] }}</p>
-            </div>
-            <div class="dropdown">
-                <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu{{ loop.index }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Add to shelf
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ loop.index }}">
-                    <form class="px-4 py-3" action="/addtoshelf" method="post">
-                        <input type="hidden" name="book" value="{{book}}">
-                        <input type="hidden" name="shelf" value="read">
-                        <button class="dropdown-item" type="submit">Read</button>
-                    </form>
-                    <form class="px-4 py-3" action="/addtoshelf" method="post">
-                        <input type="hidden" name="book" value="{{book}}">
-                        <input type="hidden" name="shelf" value="tbr">
-                        <button class="dropdown-item" type="submit">To Be Read</button>
-                    </form>
-                </ul>
-            </div>
-            <hr>
         </div>
+        <hr class="my-0">
     {% endfor %}
 {% endblock %}
