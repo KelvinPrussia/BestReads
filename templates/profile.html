@@ -9,9 +9,12 @@
         <div>
             <p>Hello there, {{ username }}</p>
         </div>
-        <div class="tab">
-            <button class="tablinks" onclick="openTab(event, 'Read')" id="defaultOpen">Read</button>
-            <button class="tablinks" onclick="openTab(event, 'TBR')">To Be Read</button>
+        <div class="tab btn-group" role="group">
+            <input type="radio" class="btn-check" name="btnradio" id="btn-read" autocomplete="off" checked onclick="openTab(event, 'Read')">
+            <label class="btn btn-outline-success" for="btn-read">Read</label>
+
+            <input type="radio" class="btn-check" name="btnradio" id="btn-tbr" autocomplete="off" onclick="openTab(event, 'TBR')">
+            <label class="btn btn-outline-success" for="btn-tbr">TBR</label>
         </div>
 
         <div id="Read" class="tabcontent">
@@ -21,7 +24,7 @@
             </div>
             <div class="info_cont">
                 <p>
-                    Title: {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
+                    <a href="/book?isbn={{book['isbn']}}">{{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}</a>
                 </p>
                 <p>Authors: {{ book["author"] }}</p>
                 <p>Publisher: {{ book["publisher"] }}</p>
@@ -48,7 +51,7 @@
             </div>
             <div class="info_cont">
                 <p>
-                    Title: {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
+                    <a href="/book?isbn={{book['isbn']}}">{{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}</a>
                 </p>
                 <p>Authors: {{ book["author"] }}</p>
                 <p>Publisher: {{ book["publisher"] }}</p>
@@ -83,9 +86,9 @@
             }
 
             document.getElementById(tabName).style.display = "block";
-            event.currentTarget.className += "active";
+            event.currentTarget.className += " active";
         }
 
-        document.getElementById("defaultOpen").click();
+        document.getElementById("btn-read").click();
     </script>
 {% endblock %}

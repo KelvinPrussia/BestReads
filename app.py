@@ -160,7 +160,7 @@ def profile():
     return render_template("profile.html", username=username, read=read, tbr=tbr)
 
 
-@app.route("/delete" ,methods=["POST"])
+@app.route("/delete", methods=["POST"])
 @login_required
 def delete():
     # Delete record of book from shelf (via profile)
@@ -173,6 +173,20 @@ def delete():
     db.insert_update(user_id, book, "delete", timestamp)
 
     return redirect("/profile")
+
+
+@app.route("/book")
+@login_required
+def book():
+    # Show all information for a book
+    isbn = request.args.get("isbn")
+    url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&maxResults=1&startIndex=0&langRestrict=en"
+    
+    resp = urlopen(url)
+
+    book = map_searched_data(json.load(resp))[0]
+
+    return render_template("book.html", book=book)
 
 
 if __name__ == "__main__":

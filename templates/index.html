@@ -12,7 +12,7 @@
                     <img src="{{ update['image'] | safe }}" alt="Cover art">
                 </div>
                 <div>
-                    <p>Title: {{ update["title"] }} {% if update["subtitle"] != "Unknown" %}- {{ update["subtitle"] }} {% endif %}</p>
+                    <p><a href="/book?isbn={{update['isbn']}}">{{ update["title"] }} {% if update["subtitle"] != "Unknown" %}- {{ update["subtitle"] }} {% endif %}</a></p>
                     <p>Update type: {{update["type"]}}</p>
                     <p>Update date: {{update["date"]}}</p>
                 </div>

@@ -12,9 +12,9 @@
                     <img class="img-fluid" src="{{ book['image'] | safe }}" alt="Cover art">
                 </div>
                 <div class="col">
-                    <div class="img-row row">
+                    <div class="search-row row">
                         <h3 class="title-text">
-                            {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
+                            <a href="/book?isbn={{book['isbn']}}">{{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}</a>
                         </h3>
                     </div>
                     <div class="row">
@@ -30,18 +30,18 @@
                                 Add to shelf
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu{{ loop.index }}">
-                                <li class="dropdown-item">
-                                    <form class="px-4 py-3" action="/addtoshelf" method="post">
+                                <li>
+                                    <form action="/addtoshelf" method="post">
                                         <input type="hidden" name="book" value="{{book}}">
                                         <input type="hidden" name="shelf" value="read">
-                                        <button class="dropdown-item" type="submit">Read</button>
+                                        <button class="dropdown-item shelf-text" type="submit">Read</button>
                                     </form>
                                 </li>
-                                <li class="dropdown-item">
-                                    <form class="px-4 py-3" action="/addtoshelf" method="post">
+                                <li>
+                                    <form action="/addtoshelf" method="post">
                                         <input type="hidden" name="book" value="{{book}}">
                                         <input type="hidden" name="shelf" value="tbr">
-                                        <button class="dropdown-item" type="submit">To Be Read</button>
+                                        <button class="dropdown-item shelf-text" type="submit">To Be Read</button>
                                     </form>
                                 </li>
                             </ul>

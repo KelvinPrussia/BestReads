@@ -18,3 +18,13 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+
+.search_row
+{
+    max-height: 193px;
+}
+
+.shelf-text
+{
+    color: #198754;
+}
