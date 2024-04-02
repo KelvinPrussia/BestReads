@@ -164,7 +164,7 @@ def profile():
     read = db.get_books_by_user(user_id, "read")
     tbr = db.get_books_by_user(user_id, "tbr")
 
-    return render_template("profile.html", username=username, read=read, tbr=tbr)
+    return render_template("profile.html", read=read, tbr=tbr)
 
 
 @app.route("/deletebook", methods=["POST"])

@@ -35,12 +35,10 @@
                     </form>
                 </div>
                 {% if review %}
-                <div class="col-md-12">
                     <form action="/deletereview" method="post">
                         <input type="hidden" name="isbn" value="{{book.isbn}}">
                         <button class="btn btn-outline-danger btn-review" type="submit">Remove</button>
                     </form>
-                </div>
                 {% endif %}
                 <script src="{{ url_for('static', filename='js/stars.js') }}"></script>
             </div>

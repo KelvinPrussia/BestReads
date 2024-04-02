@@ -1,3 +1,6 @@
+.container {
+    overflow-y: overlay;
+}
 .navbar-brand
 {
     font-size: xx-large;
@@ -17,6 +20,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #198754;
 }
 
 .search_row
@@ -69,4 +73,42 @@
 .btn-review {
     width: 100px;
     margin-bottom: 0.2rem;
+}
+
+.heading {
+    color: #198754;
+}
+
+.title-link {
+    color: #198754;
+}
+
+.title-link:hover {
+    color: #125d3a;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+}
+
+.book-desc {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+}
+
+.review-add {
+    margin-right: -8%;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #198754; 
 }

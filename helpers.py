@@ -42,7 +42,7 @@ def map_searched_data(search_data):
             "isbn": isbn_13,
             "page_count": volume_info.get("pageCount", "Unknown"),
             "categories": categories,
-            "image": volume_info.get("imageLinks", {}).get("thumbnail", "static/blankbook.jpg")
+            "image": volume_info.get("imageLinks", {}).get("thumbnail", "static/img/blankbook.jpg")
         }
 
         # add book to books list

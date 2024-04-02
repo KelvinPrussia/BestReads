@@ -14,18 +14,18 @@
                 <div class="col">
                     <div class="search-row row">
                         <h3 class="title-text">
-                            <a href="/book?isbn={{ book.isbn }}">{{ book.title }} {% if book.subtitle != "Unknown" %}- {{ book.subtitle }} {% endif %}</a>
+                            <a class="title-link" href="/book?isbn={{ book.isbn }}">{{ book.title }} {% if book.subtitle != "Unknown" %}- {{ book.subtitle }} {% endif %}</a>
                         </h3>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p><strong>Author(s):</strong> {{ book.author }}</p>
-                            <p><strong>Page count:</strong> {{ book.page_count }}</p>
-                            <p><strong>Published Date:</strong> {{ book.published_date }}</p>
+                            <p><strong class="heading">Author(s):</strong> {{ book.author }}</p>
+                            <p><strong class="heading">Page count:</strong> {{ book.page_count }}</p>
+                            <p><strong class="heading">Published Date:</strong> {{ book.published_date }}</p>
                         </div>
                         <div class="col">
-                            <p><strong>Publisher:</strong> {{ book.publisher }}</p>
-                            <p><strong>Categories:</strong> {{ book.categories }}</p>
+                            <p><strong class="heading">Publisher:</strong> {{ book.publisher }}</p>
+                            <p><strong class="heading">Categories:</strong> {{ book.categories }}</p>
                             <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu{{ loop.index }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Add to shelf
                             </button>

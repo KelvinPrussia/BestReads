@@ -11,31 +11,28 @@
                 <img src="{{ book.image | safe }}" alt="Cover art">
             </div>
             <div class="col-md-9">
-                <h2>
+                <h2 class="heading">
                     {{ book.title }} {% if book.subtitle != "Unknown" %}- {{ book.subtitle }} {% endif %}
                 </h2>
                 <div class="row">
                     <div class="col-md-3">
-                        <p><strong>Authors:</strong> {{ book.author }}</p>
+                        <p><strong class="heading">Authors:</strong> {{ book.author }}</p>
                     </div>
                     <div class="col">
-                        <p><strong>Publisher:</strong> {{ book.publisher }} - {{ book.published_date }}</p>
+                        <p><strong class="heading">Publisher:</strong> {{ book.publisher }} - {{ book.published_date }}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-3">
-                        <p><strong>Page count:</strong> {{ book.page_count }}</p>
+                        <p><strong class="heading">Page count:</strong> {{ book.page_count }}</p>
                     </div>
                     <div class="col">
-                        <p><strong>Categories:</strong> {{ book.categories }}</p>
+                        <p><strong class="heading">Categories:</strong> {{ book.categories }}</p>
                     </div>
                 </div>
+                <p><strong class="heading">Isbn:</strong> {{ book.isbn }}</p>
                 <hr class="mb-4">
-                <div class="row">
-                    <p>Description: {{ book.description }}</p>
-                    <p>Isbn: {{ book.isbn }}</p>
-
-                </div>
+                <p><strong class="heading">Synopsis:</strong> {{ book.description }}</p>
             </div>
         </div>
     </div>
