@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
+{% endblock %}
+
+{% block main %}
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-3">
+            <img class="img-fluid" src="{{ book.image | safe }}" alt="Cover art">
+        </div>
+        <div class="col-md-9">
+            <h2>{{ book.title }} {% if book.subtitle != "Unknown" %}- {{ book.subtitle }}{% endif %}</h2>
+            <p><strong>Author(s):</strong> {{ book.author }}</p>
+            <hr>
+            <div class="row">
+                <div class="rating" id="rating-stars">
+                    <span class="star-active" data-rating="1"></span>
+                    <span class="star-active" data-rating="2"></span>
+                    <span class="star-active" data-rating="3"></span>
+                    <span class="star-active" data-rating="4"></span>
+                    <span class="star-active" data-rating="5"></span>
+                </div>
+                <div id="alert-message" style="display: none;" class="alert alert-danger star-alert" role="alert"></div>        
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <form id="review-form" action="/review?isbn={{ book.isbn }}" method="post">
+                        <input type="hidden" name="rating" id="selected-rating" value="{% if review %}{{ review.rating }}{% endif %}">
+                        <div class="form-group">
+                            <textarea class="form-control" name="text" id="text" rows="4" placeholder="Enter your (optional) text review here.">{% if review %}{{ review.text }}{% endif %}</textarea>
+                        </div>
+                        <button class="btn btn-outline-success btn-review" type="submit">{% if review %}Edit{% else %}Submit{% endif %}</button>
+                    </form>
+                </div>
+                {% if review %}
+                <div class="col-md-12">
+                    <form action="/deletereview" method="post">
+                        <input type="hidden" name="isbn" value="{{book.isbn}}">
+                        <button class="btn btn-outline-danger btn-review" type="submit">Remove</button>
+                    </form>
+                </div>
+                {% endif %}
+                <script src="{{ url_for('static', filename='js/stars.js') }}"></script>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

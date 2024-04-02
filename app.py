@@ -120,8 +120,15 @@ def add_to_shelf():
     timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     shelf = request.form.get("shelf")
 
-    check_read = db.get_book_by_isbn(user_id, book["isbn"], "read")
-    check_tbr  = db.get_book_by_isbn(user_id, book["isbn"], "tbr")
+    # check if book exists in global books table
+    check_books = db.get_book_by_isbn(book["isbn"])
+
+    # check if books exists in each shelf for current user
+    check_read = db.get_shelf_by_isbn(user_id, book["isbn"], "read")
+    check_tbr  = db.get_shelf_by_isbn(user_id, book["isbn"], "tbr")
+
+    if not check_books:
+        db.insert_book(book)
 
     if shelf == "read":
         # if book already exists in read, redirect to profile
@@ -129,18 +136,18 @@ def add_to_shelf():
             return redirect("/profile")
         else:
             if check_tbr:
-                db.delete_book(user_id, book["isbn"], "tbr")
+                db.delete_from_shelf(user_id, book["isbn"], "tbr")
     else:
         # if book already exists in tbr, redirect to profile
         if check_tbr:
             return redirect("/profile")
         # if book already exists in read, delete before adding to tbr
         if check_read:
-            db.delete_book(user_id, book["isbn"], "read")
+            db.delete_from_shelf(user_id, book["isbn"], "read")
     
     # insert entry into tbr or read table and update table
-    db.insert_book(user_id, book, shelf, timestamp)
-    db.insert_update(user_id, book, shelf, timestamp)
+    db.insert_to_shelf(user_id, shelf, book["isbn"], timestamp)
+    db.insert_update(user_id, book["isbn"], shelf, timestamp)
 
     return redirect("/profile")
 
@@ -154,23 +161,25 @@ def profile():
     username = user["username"]
 
     # get read + tbr books from bd
-    read = db.get_books(user_id, "read")
-    tbr = db.get_books(user_id, "tbr")
+    read = db.get_books_by_user(user_id, "read")
+    tbr = db.get_books_by_user(user_id, "tbr")
 
     return render_template("profile.html", username=username, read=read, tbr=tbr)
 
 
-@app.route("/delete", methods=["POST"])
+@app.route("/deletebook", methods=["POST"])
 @login_required
-def delete():
+def delete_book():
     # Delete record of book from shelf (via profile)
     user_id = session["user_id"]
     book = ast.literal_eval(request.form.get("book"))
+    isbn = book["isbn"]
     shelf = request.form.get("shelf")
     timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
     
-    db.delete_book(user_id, book["isbn"], shelf)
-    db.insert_update(user_id, book, "delete", timestamp)
+    # Remove book from db and add update
+    db.delete_from_shelf(user_id, isbn, shelf)
+    db.insert_update(user_id, isbn, "delete", timestamp)
 
     return redirect("/profile")
 
@@ -188,6 +197,43 @@ def book():
 
     return render_template("book.html", book=book)
 
+@app.route("/review", methods=["GET", "POST"])
+@login_required
+def review():
+    user_id = session["user_id"]
+    isbn = request.args.get("isbn")
+    rating = request.form.get("rating")
+    text = request.form.get("text")
+    review = db.get_review(user_id, isbn)
+    timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+    
+
+    if request.method == "POST":
+        if review:
+            db.update_review(user_id, rating, isbn, text)
+            db.insert_update(user_id, isbn, "update_review", timestamp)
+            review = db.get_review(user_id, isbn)
+        else:
+            db.insert_review(user_id, rating, isbn, text)
+            db.insert_update(user_id, isbn, "new_review", timestamp)
+            review = db.get_review(user_id, isbn)
+    
+    book = db.get_book_by_isbn(isbn)
+    
+    return render_template("review.html", book=book, review=review)
+
+@app.route("/deletereview", methods=["POST"])
+@login_required
+def delete_review():
+    user_id = session["user_id"]
+    isbn = request.form.get("isbn")
+    timestamp = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+
+    db.delete_review(user_id, isbn)
+    db.insert_update(user_id, isbn, "delete_review", timestamp)
+
+    book = db.get_book_by_isbn(isbn)
+    return render_template("review.html", book=book, review=None)
 
 if __name__ == "__main__":
     app.run(debug=True, port=8001)

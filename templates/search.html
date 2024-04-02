@@ -9,23 +9,23 @@
         <div class="container my-2">
             <div class="row">
                 <div class="col-md-3 d-flex align-items-center">
-                    <img class="img-fluid" src="{{ book['image'] | safe }}" alt="Cover art">
+                    <img class="img-fluid" src="{{ book.image | safe }}" alt="Cover art">
                 </div>
                 <div class="col">
                     <div class="search-row row">
                         <h3 class="title-text">
-                            <a href="/book?isbn={{book['isbn']}}">{{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}</a>
+                            <a href="/book?isbn={{ book.isbn }}">{{ book.title }} {% if book.subtitle != "Unknown" %}- {{ book.subtitle }} {% endif %}</a>
                         </h3>
                     </div>
                     <div class="row">
                         <div class="col">
-                            <p><strong>Author(s):</strong> {{ book["author"] }}</p>
-                            <p><strong>Publisher:</strong> {{ book["publisher"] }}</p>
-                            <p><strong>Published Date:</strong> {{ book["published_date"] }}</p>
+                            <p><strong>Author(s):</strong> {{ book.author }}</p>
+                            <p><strong>Page count:</strong> {{ book.page_count }}</p>
+                            <p><strong>Published Date:</strong> {{ book.published_date }}</p>
                         </div>
                         <div class="col">
-                            <p><strong>Page count:</strong> {{ book["page_count"] }}</p>
-                            <p><strong>Categories:</strong> {{ book["categories"] }}</p>
+                            <p><strong>Publisher:</strong> {{ book.publisher }}</p>
+                            <p><strong>Categories:</strong> {{ book.categories }}</p>
                             <button class="btn btn-outline-success dropdown-toggle" type="button" id="dropdownMenu{{ loop.index }}" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Add to shelf
                             </button>

@@ -1,0 +1,72 @@
+.navbar-brand
+{
+    font-size: xx-large;
+    color: #198754;
+    
+}
+
+.navbar-brand:hover
+{
+    color: #198754;
+    text-decoration: underline;
+}
+
+.title-text
+{
+    max-width: 750px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.search_row
+{
+    max-height: 193px;
+}
+
+.shelf-text
+{
+    color: #198754;
+}
+
+.star-active {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/empty-star.png');
+    background-size: cover;
+    cursor: pointer;
+}
+
+.star-empty {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/empty-star.png');
+    background-size: cover;
+}
+
+.star-full {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-image: url('../img/filled-star.png');
+    background-size: cover;
+}
+
+.rating {
+    margin-bottom: 10px;
+}
+
+.star-alert {
+    position: fixed;
+    transform: translateX(90%);
+    width: 14rem;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.btn-review {
+    width: 100px;
+    margin-bottom: 0.2rem;
+}

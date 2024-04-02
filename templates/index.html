@@ -9,17 +9,16 @@
         {% for update in updates %}
             <div>
                 <div>
-                    <img src="{{ update['image'] | safe }}" alt="Cover art">
+                    <img src="{{ update.image | safe }}" alt="Cover art">
                 </div>
                 <div>
-                    <p><a href="/book?isbn={{update['isbn']}}">{{ update["title"] }} {% if update["subtitle"] != "Unknown" %}- {{ update["subtitle"] }} {% endif %}</a></p>
-                    <p>Update type: {{update["type"]}}</p>
-                    <p>Update date: {{update["date"]}}</p>
+                    <p><a href="/book?isbn={{update.isbn}}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a></p>
+                    <p>Update type: {{update.type}}</p>
+                    <p>Update date: {{update.date}}</p>
                 </div>
             </div>
         {% endfor %}
     {% else %}
         <p>Updates will appear here</p>
-
     {% endif %}
 {% endblock %}

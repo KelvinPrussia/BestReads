@@ -5,21 +5,38 @@
 {% endblock %}
 
 {% block main %}
-    <div class="info_cont">
-        <div>
-            <img src="{{ book['image'] | safe }}" alt="Cover art">
-        </div>
-        <div>
-            <p>
-                Title: {{ book["title"] }} {% if book["subtitle"] != "Unknown" %}- {{ book["subtitle"] }} {% endif %}
-            </p>
-            <p>Authors: {{ book["author"] }}</p>
-            <p>Publisher: {{ book["publisher"] }}</p>
-            <p>Published Date: {{ book["published_date"] }}</p>
-            <p>Description: {{ book["description"] }}</p>
-            <p>Isbn: {{ book["isbn"] }}</p>
-            <p>Page count: {{ book["page_count"] }}</p>
-            <p>Categories: {{ book["categories"] }}</p>
+    <div class="container my-2">
+        <div class="row">
+            <div class="col-md-3">
+                <img src="{{ book.image | safe }}" alt="Cover art">
+            </div>
+            <div class="col-md-9">
+                <h2>
+                    {{ book.title }} {% if book.subtitle != "Unknown" %}- {{ book.subtitle }} {% endif %}
+                </h2>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>Authors:</strong> {{ book.author }}</p>
+                    </div>
+                    <div class="col">
+                        <p><strong>Publisher:</strong> {{ book.publisher }} - {{ book.published_date }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>Page count:</strong> {{ book.page_count }}</p>
+                    </div>
+                    <div class="col">
+                        <p><strong>Categories:</strong> {{ book.categories }}</p>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <div class="row">
+                    <p>Description: {{ book.description }}</p>
+                    <p>Isbn: {{ book.isbn }}</p>
+
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
