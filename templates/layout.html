@@ -12,7 +12,9 @@
   <body>
     <nav class="navbar navbar-expand bg-body-secondary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Bestreads</a>
+            <h1>
+                <a class="navbar-brand" href="/">Bestreads</a>
+            </h1>
                 {% if session.user_id %}
                     <form action="/search" method="post" class="d-flex" role="search">
                         <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search" required>

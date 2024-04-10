@@ -91,7 +91,8 @@ def logout():
 @login_required
 def index():
      updates = db.get_recent_updates(session["user_id"])
-     return render_template("index.html", updates=updates)
+     username = db.get_user_by_id(session["user_id"])["username"]
+     return render_template("index.html", username=username, updates=updates)
 
 
 @app.route("/search", methods=["POST"])

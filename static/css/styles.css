@@ -100,6 +100,11 @@
     text-overflow: ellipsis;
 }
 
+.thumbnail-img {
+    height: 80px;
+    width: auto;
+}
+
 .review-add {
     margin-right: -8%;
 }

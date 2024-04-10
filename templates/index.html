@@ -6,19 +6,45 @@
 
 {% block main %}
     {% if updates %}
+        <h2 class="heading">Recent updates</h2>
         {% for update in updates %}
-            <div>
-                <div>
-                    <img src="{{ update.image | safe }}" alt="Cover art">
-                </div>
-                <div>
-                    <p><a href="/book?isbn={{update.isbn}}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a></p>
-                    <p>Update type: {{update.type}}</p>
-                    <p>Update date: {{update.date}}</p>
+            <div class="container">
+                <div class="row mb-3">
+                    <div class="col-md-1">
+                        <img class="thumbnail-img" src="{{ update.image | safe }}" href="/book?isbn={{ update.isbn }}" alt="Cover art">
+                    </div>
+                    <div class="col">
+                        <p>
+                            {{ username }} 
+                            {% if update.type == 'read' %}
+                                added 
+                                <a class="title-link" href="/book?isbn={{ update.isbn }}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a>
+                                to Read
+                            {% elif update.type == 'tbr' %}
+                                added 
+                                <a class="title-link" href="/book?isbn={{ update.isbn }}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a>
+                                to To Be Read
+                            {% elif update.type == 'delete' %}
+                                removed 
+                                <a class="title-link" href="/book?isbn={{ update.isbn }}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a>
+                                from their shelf
+                            {% elif update.type == 'new_review' %}
+                                added a review for
+                                <a class="title-link" href="/book?isbn={{ update.isbn }}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a>
+                            {% elif update.type == 'update_review' %}
+                                updated their review for 
+                                <a class="title-link" href="/book?isbn={{ update.isbn }}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a>
+                            {% elif update.type == 'delete_review' %}
+                                removed their review for 
+                                <a class="title-link" href="/book?isbn={{ update.isbn }}">{{ update.title }} {% if update.subtitle != "Unknown" %}- {{ update.subtitle }} {% endif %}</a>
+                            {% endif %}
+                        </p>
+                        <p>{{update.date}}</p>
+                    </div>
                 </div>
             </div>
         {% endfor %}
     {% else %}
-        <p>Updates will appear here</p>
+        <p class="heading"><strong>Updates will appear here</p></strong>
     {% endif %}
 {% endblock %}
